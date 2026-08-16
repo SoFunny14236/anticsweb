@@ -1,1 +1,1 @@
-Website for [@AnticsFeed]((https://www.youtube.com/@AnticsFeed)) on YouTube
+Website for [@AnticsFeed](https://www.youtube.com/@AnticsFeed) on YouTube
