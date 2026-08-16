@@ -3,44 +3,49 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
+  :root {
+    --color-accent: #cc1414;
+    --color-bg: #0a0a0a;
+    --color-text-primary: #e5e5e5;
+    --color-text-secondary: #9ca3af;
+    --color-border: #8b0000;
+    --color-grid: rgba(204, 20, 20, 0.09);
   }
 
+  html { scroll-behavior: smooth; }
+
   body {
-    background-color: #0a0a0a;
+    background-color: var(--color-bg);
     background-image:
-      linear-gradient(rgba(204, 20, 20, 0.09) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(204, 20, 20, 0.09) 1px, transparent 1px),
-      linear-gradient(rgba(204, 20, 20, 0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(204, 20, 20, 0.035) 1px, transparent 1px);
+      linear-gradient(var(--color-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-grid) 1px, transparent 1px),
+      linear-gradient(var(--color-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
     background-size: 96px 96px, 96px 96px, 16px 16px, 16px 16px;
     background-position: -1px -1px;
     font-family: 'Inter', sans-serif;
+    color: var(--color-text-primary);
   }
 }
 
 @layer utilities {
   .text-glow {
-    text-shadow: 0 0 18px rgba(204, 20, 20, 0.55), 0 0 48px rgba(139, 0, 0, 0.35);
+    text-shadow: 0 0 18px color-mix(in srgb, var(--color-accent) 55%, transparent),
+      0 0 48px color-mix(in srgb, var(--color-accent) 35%, transparent);
   }
-
   .text-glow-soft {
-    text-shadow: 0 0 12px rgba(204, 20, 20, 0.4), 0 0 30px rgba(139, 0, 0, 0.25);
+    text-shadow: 0 0 12px color-mix(in srgb, var(--color-accent) 40%, transparent),
+      0 0 30px color-mix(in srgb, var(--color-accent) 25%, transparent);
   }
+  .shadow-glow { box-shadow: 0 0 20px color-mix(in srgb, var(--color-accent) 35%, transparent); }
+  .shadow-glow-lg { box-shadow: 0 0 40px color-mix(in srgb, var(--color-accent) 45%, transparent); }
 }
 
 @layer components {
-  /* One-time scanner wipe reveal for ANTICS title */
   .antics-title {
     position: relative;
     color: #3a0000;
-    background-image: linear-gradient(
-      90deg,
-      #cc1414 0%,
-      #ff2020 50%,
-      #cc1414 100%
-    );
+    background-image: linear-gradient(90deg, var(--color-accent) 0%, color-mix(in srgb, var(--color-accent) 80%, #ff2020) 50%, var(--color-accent) 100%);
     background-size: 200% 100%;
     background-repeat: no-repeat;
     background-position: -100% 0;
@@ -52,110 +57,58 @@
   }
 
   .antics-title::after {
-    content: 'ANTICS';
+    content: attr(data-title-text);
     position: absolute;
     inset: 0;
-    color: #cc1414;
-    -webkit-text-fill-color: #cc1414;
+    color: var(--color-accent);
+    -webkit-text-fill-color: var(--color-accent);
     opacity: 0;
     animation: antics-glow-in 1.5s ease-out 1.8s forwards;
     pointer-events: none;
   }
 
-  @keyframes antics-wipe {
-    0% {
-      background-position: -100% 0;
-    }
-    100% {
-      background-position: 100% 0;
-    }
-  }
-
+  @keyframes antics-wipe { 0% { background-position: -100% 0; } 100% { background-position: 100% 0; } }
   @keyframes antics-glow-in {
-    0% {
-      opacity: 0;
-      text-shadow: 0 0 0 rgba(204, 20, 20, 0);
-    }
-    100% {
-      opacity: 1;
-      text-shadow: 0 0 18px rgba(204, 20, 20, 0.55), 0 0 48px rgba(139, 0, 0, 0.35);
-    }
+    0% { opacity: 0; text-shadow: 0 0 0 transparent; }
+    100% { opacity: 1; text-shadow: 0 0 18px color-mix(in srgb, var(--color-accent) 55%, transparent), 0 0 48px color-mix(in srgb, var(--color-accent) 35%, transparent); }
   }
 
-  /* Scan-line overlay for surveillance feel */
   .scanlines::before {
     content: '';
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    pointer-events: none;
-    background: repeating-linear-gradient(
-      0deg,
-      rgba(0, 0, 0, 0) 0px,
-      rgba(0, 0, 0, 0) 2px,
-      rgba(204, 20, 20, 0.025) 3px,
-      rgba(0, 0, 0, 0) 4px
-    );
+    position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px, color-mix(in srgb, var(--color-accent) 3%, transparent) 3px, rgba(0,0,0,0) 4px);
     animation: scanline-flicker 6s steps(60) infinite;
   }
-
   .scanlines::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: 9998;
-    pointer-events: none;
-    background: radial-gradient(
-      ellipse at center,
-      transparent 50%,
-      rgba(0, 0, 0, 0.15) 100%
-    );
+    content: ''; position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.15) 100%);
   }
+  @keyframes scanline-flicker { 0%,100% { opacity: 0.6; } 50% { opacity: 0.4; } 90% { opacity: 0.7; } }
 
-  @keyframes scanline-flicker {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 0.4; }
-    90% { opacity: 0.7; }
-  }
-
-  /* Nav fade-in on scroll */
   .nav-solid {
-    background-color: rgba(10, 10, 10, 0.92);
-    border-bottom: 1px solid rgba(204, 20, 20, 0.25);
+    background-color: color-mix(in srgb, var(--color-bg) 92%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 25%, transparent);
     backdrop-filter: blur(8px);
   }
 
-  /* Pulsing red dot for live indicator */
-  .live-dot {
-    animation: live-pulse 2s ease-in-out infinite;
-  }
-
+  .live-dot { animation: live-pulse 2s ease-in-out infinite; }
   @keyframes live-pulse {
-    0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(204, 20, 20, 0.8); }
-    50% { opacity: 0.4; box-shadow: 0 0 4px rgba(204, 20, 20, 0.3); }
+    0%,100% { opacity: 1; box-shadow: 0 0 8px color-mix(in srgb, var(--color-accent) 80%, transparent); }
+    50% { opacity: 0.4; box-shadow: 0 0 4px color-mix(in srgb, var(--color-accent) 30%, transparent); }
   }
 
-  .glitch-granted {
-    animation: glitch-granted 0.3s steps(2) 3;
-  }
-
+  .glitch-granted { animation: glitch-granted 0.3s steps(2) 3; }
   @keyframes glitch-granted {
-    0% { transform: translateX(0); text-shadow: 0 0 12px rgba(204, 20, 20, 0.6); }
-    25% { transform: translateX(2px); text-shadow: -2px 0 rgba(204, 20, 20, 0.4), 2px 0 rgba(255, 50, 50, 0.3); }
-    50% { transform: translateX(-1px); text-shadow: 2px 0 rgba(204, 20, 20, 0.4), -2px 0 rgba(255, 50, 50, 0.3); }
-    75% { transform: translateX(1px); text-shadow: 0 0 18px rgba(204, 20, 20, 0.8); }
-    100% { transform: translateX(0); text-shadow: 0 0 14px rgba(204, 20, 20, 0.7); }
+    0% { transform: translateX(0); text-shadow: 0 0 12px color-mix(in srgb, var(--color-accent) 60%, transparent); }
+    25% { transform: translateX(2px); text-shadow: -2px 0 color-mix(in srgb, var(--color-accent) 40%, transparent), 2px 0 rgba(255,50,50,0.3); }
+    50% { transform: translateX(-1px); text-shadow: 2px 0 color-mix(in srgb, var(--color-accent) 40%, transparent), -2px 0 rgba(255,50,50,0.3); }
+    75% { transform: translateX(1px); text-shadow: 0 0 18px color-mix(in srgb, var(--color-accent) 80%, transparent); }
+    100% { transform: translateX(0); text-shadow: 0 0 14px color-mix(in srgb, var(--color-accent) 70%, transparent); }
   }
+  .glitch-denied { animation: glitch-denied 0.15s steps(2) 4; }
+  @keyframes glitch-denied { 0% { transform: translateX(0); } 25% { transform: translateX(-3px); } 50% { transform: translateX(3px); } 75% { transform: translateX(-2px); } 100% { transform: translateX(0); } }
 
-  .glitch-denied {
-    animation: glitch-denied 0.15s steps(2) 4;
-  }
-
-  @keyframes glitch-denied {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-3px); }
-    50% { transform: translateX(3px); }
-    75% { transform: translateX(-2px); }
-    100% { transform: translateX(0); }
-  }
+  .editable-text { outline: 1px dashed transparent; outline-offset: 4px; transition: outline-color 0.2s ease; cursor: text; }
+  .edit-mode-active .editable-text { outline-color: color-mix(in srgb, var(--color-accent) 40%, transparent); }
+  .edit-mode-active .editable-text:hover { outline-color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 8%, transparent); }
 }

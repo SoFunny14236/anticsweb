@@ -1,31 +1,23 @@
+import { EditableText } from '@/components/EditableText';
+
 function About() {
   return (
-    <section id="about" className="relative border-t border-blood-700/20 px-6 py-28">
+    <section id="about" className="relative border-t border-accent-700/20 px-6 py-28">
       <div className="mx-auto max-w-3xl">
         <div className="mb-10">
-          <span className="font-heading text-xs uppercase tracking-[0.4em] text-blood-500">
-            File #0001
-          </span>
-          <h2 className="mt-2 font-heading text-4xl font-bold uppercase tracking-tight text-neutral-100 sm:text-5xl">
-            About
-          </h2>
-          <div className="mt-4 h-px w-full bg-gradient-to-r from-blood-700/40 via-blood-700/15 to-transparent" />
+          <EditableText contentId="about_file" as="span" className="font-heading text-xs uppercase tracking-[0.4em] text-accent-500" />
+          <EditableText contentId="about_heading" as="h2" className="mt-2 block font-heading text-4xl font-bold uppercase tracking-tight text-neutral-100 sm:text-5xl" />
+          <div className="mt-4 h-px w-full bg-gradient-to-r from-accent-700/40 via-accent-700/15 to-transparent" />
         </div>
 
         <div className="space-y-4 font-body text-base leading-relaxed text-neutral-400">
-          <p>
-            I document things that happened, more or less, in the order they
-            occurred. Every video is filed, timestamped, and presented with
-            commentary.
-          </p>
-          <p>
-          </p>
+          <EditableText contentId="about_para1" as="p" className="block" />
         </div>
 
         <div className="mt-10 flex items-center gap-4 font-heading text-xs uppercase tracking-[0.3em] text-neutral-700">
-          <span className="h-px w-8 bg-blood-700/40" />
-          <span>Status: Ongoing</span>
-          <span className="h-px w-8 bg-blood-700/40" />
+          <span className="h-px w-8 bg-accent-700/40" />
+          <EditableText contentId="about_status" as="span" />
+          <span className="h-px w-8 bg-accent-700/40" />
         </div>
       </div>
     </section>
