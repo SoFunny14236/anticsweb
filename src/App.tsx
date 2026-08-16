@@ -5,15 +5,13 @@ import Episodes from '@/components/Episodes';
 import About from '@/components/About';
 import Subscribe from '@/components/Subscribe';
 import EditToggle from '@/components/EditToggle';
-import { useEpisodes } from '@/hooks/useEpisodes';
 import { EditModeContext } from '@/hooks/useEditMode';
 
 function App() {
-  const { localhost } = useEpisodes();
   const [editMode, setEditMode] = useState(false);
 
   return (
-    <EditModeContext.Provider value={{ editMode, setEditMode, localhost }}>
+    <EditModeContext.Provider value={{ editMode, setEditMode }}>
       <div className="scanlines min-h-screen bg-transparent font-body text-neutral-200">
         <Nav />
         <Hero />

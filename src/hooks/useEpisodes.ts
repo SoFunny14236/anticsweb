@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import type { Episode } from '@/types';
+import { useEditMode } from '@/hooks/useEditMode';
 
 const STORAGE_KEY = 'antics-episodes';
 
@@ -14,13 +15,7 @@ const defaultEpisodes: Episode[] = [
   },
 ];
 
-function isLocalhost(): boolean {
-  const host = window.location.hostname;
-  return host === 'localhost' || host === '127.0.0.1';
-}
-
 function loadEpisodes(): Episode[] {
-  if (!isLocalhost()) return defaultEpisodes;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaultEpisodes;
@@ -36,14 +31,14 @@ function loadEpisodes(): Episode[] {
 }
 
 export function useEpisodes() {
-  const localhost = isLocalhost();
+  const { editMode } = useEditMode();
   const [episodes, setEpisodes] = useState<Episode[]>(loadEpisodes);
 
   useEffect(() => {
-    if (localhost) {
+    if (editMode) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(episodes));
     }
-  }, [episodes, localhost]);
+  }, [episodes, editMode]);
 
   const addEpisode = useCallback(() => {
     setEpisodes((prev) => [
@@ -112,7 +107,6 @@ export function useEpisodes() {
 
   return {
     episodes,
-    localhost,
     addEpisode,
     updateEpisode,
     deleteEpisode,

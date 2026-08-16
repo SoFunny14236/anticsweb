@@ -14,8 +14,8 @@ function About() {
 
         <div className="space-y-4 font-body text-base leading-relaxed text-neutral-400">
           <p>
-            Antics documents things that happened, more or less, in the order they
-            occurred. Every episode is filed, timestamped and presented with
+            I document things that happened, more or less, in the order they
+            occurred. Every video is filed, timestamped, and presented with
             commentary.
           </p>
           <p>
